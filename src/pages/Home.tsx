@@ -1,11 +1,23 @@
+import { useHistory } from 'react-router-dom';
+
 import illustrationImg from '../assets/images/illustration.svg'
 import logoImg from '../assets/images/logo.svg'
 import googleIconImg from '../assets/images/google-icon.svg'
+import { Button } from '../components/Button';
 
 // Importa ele aqui por que esse aquivo só sera carregado se esta página for chamada
 import '../styles/auth.scss';
 
+
 export function Home(){ 
+    // Criando uma navegação para a proxima "pagina" (btn Criar sala com Google)
+    const history = useHistory();
+
+    function navigateToNewRoom(){
+        history.push('/rooms/new');
+    }
+
+
     return(
         <div id="page-auth">
             {/* Barra lateral com infos */}
@@ -19,7 +31,7 @@ export function Home(){
             <main>
                 <div className="main-content">
                     <img src={logoImg} alt="LetMeAsk"/>
-                    <button>
+                    <button onClick={navigateToNewRoom} className="create-room">
                         <img src={googleIconImg} alt="Logo do Google"/>
                         Crie sua sala com o Google
                     </button>
@@ -32,9 +44,9 @@ export function Home(){
                             placeholder="Digite o código da sala"
                         />
 
-                        <button type="submit">
+                        <Button type="submit">
                             Entrar na sala
-                        </button>
+                        </Button>
                     </form>
                 </div>
             </main>
