@@ -1,22 +1,18 @@
-import { createContext, useState } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom' 
+import { BrowserRouter, Route } from 'react-router-dom';
 
 import { Home } from './pages/Home'
 import { NewRoom } from './pages/NewRoom'
 
-// Criando um contexto para que os componentes compartilhem dados entre si
-export const TestContext = createContext({} as any);
+import { AuthContextProvider } from './contexts/AuthContext'
 
 function App() {
-  const [value, setValue] = useState('Teste');
-
   return (
     <BrowserRouter>
-      <TestContext.Provider value={{ value, setValue }}>
-        {/* Colocando as rotas dentro do testContext.provider, faz com que ambos encherguem seus valores */}
-        <Route path="/" exact={true} component={Home}/>
-        <Route path="/rooms/new" component={NewRoom}/>
-      </TestContext.Provider>
+      <AuthContextProvider>
+        {/* Colocando as rotas dentro do AuthContext.provider, faz com que ambos encherguem seus valores */}
+        <Route path="/" exact={true} component={Home} />
+        <Route path="/rooms/new" component={NewRoom} />
+      </AuthContextProvider>
     </BrowserRouter>
   );
 }

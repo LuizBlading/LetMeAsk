@@ -1,7 +1,5 @@
 import { useHistory } from 'react-router-dom';
 
-import { firebase , auth } from '../services/firebase';
-
 import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
 import googleIconImg from '../assets/images/google-icon.svg';
@@ -10,22 +8,18 @@ import { Button } from '../components/Button';
 
 // Importa ele aqui por que esse aquivo só sera carregado se esta página for chamada
 import '../styles/auth.scss';
-
+import { useAuth } from '../hooks/useAuth'; // Importando o useContext e o AuthContext
 
 export function Home(){ 
     // Criando uma navegação para a proxima "pagina" (btn Criar sala com Google)
     const history = useHistory();
+    const { signInWithGoogle , user} = useAuth();
 
-    function handleCreateRoom(){
-        // Fazendo a autenticação do usuario
-        const provider = new firebase.auth.GoogleAuthProvider();
-
-        auth.signInWithPopup(provider).then(result => {
-            console.log(result);
-            history.push('/rooms/new');
-        })
-
-        
+    async function handleCreateRoom(){
+        if(!user){
+            await signInWithGoogle()
+        }
+        history.push('/rooms/new');             
     }
 
 
